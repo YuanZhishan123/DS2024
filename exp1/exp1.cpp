@@ -33,7 +33,7 @@ class Complex{
 		}
 		void Out()
 		{
-			cout<<"¸Ã¸´ÊıÎª:"<<_real<<"+"<<_imag<<"i"<<"Ä£Îª£º"<<pow((pow(_real,2)+pow(_imag,2)),0.5)<<endl;
+			cout<<"è¯¥å¤æ•°ä¸º:"<<_real<<"+"<<_imag<<"i"<<"æ¨¡ä¸ºï¼š"<<pow((pow(_real,2)+pow(_imag,2)),0.5)<<endl;
 		}
 		Complex operator=(Complex const& a)
 		{
@@ -80,89 +80,89 @@ Vector<Complex> Search(Vector<Complex> const &e,int p,int q)
 int main(int argc, char** argv) {
 	srand(time(NULL));
 	int a=rand();
-	int sa=0;//ĞéÊµÏàÍ¬¼ÆÊı 
-	clock_t st,end;//Ğ§ÂÊ¼ÆÊı 
+	int sa=0;//è™šå®ç›¸åŒè®¡æ•° 
+	clock_t st,end;//æ•ˆç‡è®¡æ•° 
 	Complex c(0,0);
-	Complex c1,c2,c3;//²åÈë²âÊÔÓÃ 
+	Complex c1,c2,c3;//æ’å…¥æµ‹è¯•ç”¨ 
 	Vector<Complex> m(a*2,a,c),m1(a*2,a,c);
 	Vector<Complex> n(a*2,a,c),n1(a*2,a,c);
 	Vector<Complex> test(a*2,a,c);
-	cout<<"¹²ÓĞ"<<a<<"¸ö¸´Êı"<<endl; 
+	cout<<"å…±æœ‰"<<a<<"ä¸ªå¤æ•°"<<endl; 
 	for(int i=0;i<a;i++)
 	{
 		Complex r;r.Out();
 		m[i]=r;
 	}
-	m.insert(a/rand(),c);//ÓÃÓÚ²âÊÔÏàÍ¬²éÕÒ
-	for(int i=0;i<rand()%10;i++)m.insert(a/rand(),m[a/rand()]);//±£Ö¤ÓĞÖØ¸´ 
+	m.insert(a/rand(),c);//ç”¨äºæµ‹è¯•ç›¸åŒæŸ¥æ‰¾
+	for(int i=0;i<rand()%10;i++)m.insert(a/rand(),m[a/rand()]);//ä¿è¯æœ‰é‡å¤ 
 	n=m;m1=m;n1=m;
-	//ÖÃÂÒ
+	//ç½®ä¹±
 	m.unsort();
-	//ÏàÍ¬²éÕÒ  	
- 	cout<<"ÓëcÏàÍ¬µÄÔªËØÖÈÎª"<<m.find(c)<<endl;
-	//²åÈë²âÊÔ 
+	//ç›¸åŒæŸ¥æ‰¾  	
+ 	cout<<"ä¸cç›¸åŒçš„å…ƒç´ ç§©ä¸º"<<m.find(c)<<endl;
+	//æ’å…¥æµ‹è¯• 
 	m.insert(0,c1);
 	m.insert(m.size()/2,c2);
 	m.insert(c3);
-	//É¾³ı²âÊÔ
+	//åˆ é™¤æµ‹è¯•
 	m.remove(0);
 	m.remove(m.size()-1);
 	m.remove(m.size()/4,m.size()/2); 
-	//È¥ÖØ²âÊÔ
-	cout<<"È¥³ıÁË"<<m. deduplicate()<<"¸öÖØ¸´ÔªËØ"<<endl;
-	//ÂÒĞòÃ°Åİ
+	//å»é‡æµ‹è¯•
+	cout<<"å»é™¤äº†"<<m. deduplicate()<<"ä¸ªé‡å¤å…ƒç´ "<<endl;
+	//ä¹±åºå†’æ³¡
 	st=clock();
-	cout<<"ÂÒĞòÃ°ÅİÅÅĞò¿ªÊ¼"<<endl;
+	cout<<"ä¹±åºå†’æ³¡æ’åºå¼€å§‹"<<endl;
 	m.bubbleSort(0,m.size());
 	end=clock();
 	long eff1=end-st;
-	cout<<"ÅÅĞò½áÊø,ÂÒĞòÃ°ÅİÓÃÊ±"<<eff1<<"ms"<<endl;
-	//Ë³ĞòÃ°Åİ
+	cout<<"æ’åºç»“æŸ,ä¹±åºå†’æ³¡ç”¨æ—¶"<<eff1<<"ms"<<endl;
+	//é¡ºåºå†’æ³¡
 	st=clock();
-	cout<<"Ë³ĞòÃ°ÅİÅÅĞò¿ªÊ¼"<<endl;
+	cout<<"é¡ºåºå†’æ³¡æ’åºå¼€å§‹"<<endl;
 	m.bubbleSort(0,m.size());
 	end=clock();
 	long eff2=end-st;
-	cout<<"ÅÅĞò½áÊø,Ë³ĞòÃ°ÅİÓÃÊ±"<<eff2<<"ms"<<endl; 
-	//ÄæĞòÃ°Åİ
-	for(int i=0;i<m.size();i++)//m×ªÎªÄæĞò 
+	cout<<"æ’åºç»“æŸ,é¡ºåºå†’æ³¡ç”¨æ—¶"<<eff2<<"ms"<<endl; 
+	//é€†åºå†’æ³¡
+	for(int i=0;i<m.size();i++)//mè½¬ä¸ºé€†åº 
 	{
 		m[i]=m1[m1.size()-i-1];
 	} 
 	n1=m;
 	st=clock();
-	cout<<"ÄæĞòÃ°ÅİÅÅĞò¿ªÊ¼"<<endl;
+	cout<<"é€†åºå†’æ³¡æ’åºå¼€å§‹"<<endl;
 	m.bubbleSort(0,m.size());
 	end=clock();
 	long eff3=end-st;
-	cout<<"ÅÅĞò½áÊø,ÄæĞòÃ°ÅİÓÃÊ±"<<eff3<<"ms"<<endl; 
-	//ÂÒĞò¹é²¢
+	cout<<"æ’åºç»“æŸ,é€†åºå†’æ³¡ç”¨æ—¶"<<eff3<<"ms"<<endl; 
+	//ä¹±åºå½’å¹¶
 	st=clock();
-	cout<<"ÂÒĞò¹é²¢ÅÅĞò¿ªÊ¼"<<endl;
+	cout<<"ä¹±åºå½’å¹¶æ’åºå¼€å§‹"<<endl;
 	n.mergeSort(0,n.size());
 	end=clock();
 	long eff4=end-st;
-	cout<<"ÅÅĞò½áÊø,ÂÒĞò¹é²¢ÓÃÊ±"<<eff4<<"ms"<<endl;
-	//Ë³Ğò¹é²¢
+	cout<<"æ’åºç»“æŸ,ä¹±åºå½’å¹¶ç”¨æ—¶"<<eff4<<"ms"<<endl;
+	//é¡ºåºå½’å¹¶
 	st=clock();
-	cout<<"Ë³Ğò¹é²¢ÅÅĞò¿ªÊ¼"<<endl;
+	cout<<"é¡ºåºå½’å¹¶æ’åºå¼€å§‹"<<endl;
 	n.mergeSort(0,n.size());
 	end=clock();
 	long eff5=end-st;
-	cout<<"ÅÅĞò½áÊø,Ë³Ğò¹é²¢ÓÃÊ±"<<eff5<<"ms"<<endl; 
-	//ÄæĞò¹é²¢
+	cout<<"æ’åºç»“æŸ,é¡ºåºå½’å¹¶ç”¨æ—¶"<<eff5<<"ms"<<endl; 
+	//é€†åºå½’å¹¶
 	n=n1; 
 	st=clock();
-	cout<<"ÄæĞò¹é²¢ÅÅĞò¿ªÊ¼"<<endl;
+	cout<<"é€†åºå½’å¹¶æ’åºå¼€å§‹"<<endl;
 	n.mergeSort(0,n.size());
 	end=clock();
 	long eff6=end-st;
-	cout<<"ÅÅĞò½áÊø,ÄæĞò¹é²¢ÓÃÊ±"<<eff6<<"ms"<<endl; 
-	//Çø¼ä²éÕÒ
+	cout<<"æ’åºç»“æŸ,é€†åºå½’å¹¶ç”¨æ—¶"<<eff6<<"ms"<<endl; 
+	//åŒºé—´æŸ¥æ‰¾
 	test=Search(m,80,900);
-	if(test.size()==0) cout<<"Ã»ÓĞÄ£ÔÚ´ËÇø¼äµÄÏòÁ¿"<<endl;
+	if(test.size()==0) cout<<"æ²¡æœ‰æ¨¡åœ¨æ­¤åŒºé—´çš„å‘é‡"<<endl;
 	else{
-		cout<<"ÒÔÏÂÏòÁ¿µÄÄ£ÔÚ´ËÇø¼ä"<<endl;
+		cout<<"ä»¥ä¸‹å‘é‡çš„æ¨¡åœ¨æ­¤åŒºé—´"<<endl;
 		for(int i=0;i<test.size();i++)
 		test[i].Out();
 	}	
