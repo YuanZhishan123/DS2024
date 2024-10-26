@@ -23,10 +23,10 @@ main(){
 	Vector<int> rec,rec0;
 	srand(time(NULL));
 	for(int i=0;i<10;i++){
-		recnum=1+rand()%10;
+		recnum=1+rand()%105;
 		cout<<"第"<<i<<"组共有"<<recnum<<"个矩形"<<"高度分别为";
 		for(int k=0;k<recnum;k++){
-			rec.insert(1+rand()%10);
+			rec.insert(rand()%104);
 			cout<<rec[k]<<' ';
 		}
 		cout<<endl;
