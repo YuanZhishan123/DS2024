@@ -8,58 +8,56 @@
 #include "BinTree.cpp"
 using namespace std;
 
-// Î»Í¼Àà Bitmap£¨ÈçÇ°ËùÊö£©
-
 class HuffCode {
 public:
-    unordered_map<char, Bitmap> huffmanCodes;  // ×Ö·ûÓëÆä Huffman ±àÂëµÄÓ³Éä
-    unordered_map<char, int> frequencies;      // ×Ö·ûµÄÆµÂÊ
+    unordered_map<char, Bitmap> huffmanCodes;  // å­—ç¬¦ä¸å…¶ Huffman ç¼–ç çš„æ˜ å°„
+    unordered_map<char, int> frequencies;      // å­—ç¬¦çš„é¢‘ç‡
 
 public:
-    // »ñÈ¡ Huffman ±àÂëÓ³Éä
+    // è·å– Huffman ç¼–ç æ˜ å°„
     unordered_map<char, Bitmap> getHuffmanCodes() const {
         return huffmanCodes;
     }
 
-    // »ñÈ¡Ä³¸ö×Ö·ûµÄ Huffman ±àÂë
+    // è·å–æŸä¸ªå­—ç¬¦çš„ Huffman ç¼–ç 
     Bitmap getHuffmanCode(char ch) const {
         auto it = huffmanCodes.find(ch);
         if (it != huffmanCodes.end()) {
             return it->second;
         }
-        return Bitmap(0);  // Ä¬ÈÏ·µ»Ø¿ÕµÄÎ»Í¼
+        return Bitmap(0);  // é»˜è®¤è¿”å›ç©ºçš„ä½å›¾
     }
 
-    // ÉèÖÃÄ³¸ö×Ö·ûµÄ Huffman ±àÂë
+    // è®¾ç½®æŸä¸ªå­—ç¬¦çš„ Huffman ç¼–ç 
     void setHuffmanCode(char ch, const Bitmap& code) {
         huffmanCodes[ch] = code;
     }
 
-    // ÉèÖÃÄ³¸ö×Ö·ûµÄÆµÂÊ
+    // è®¾ç½®æŸä¸ªå­—ç¬¦çš„é¢‘ç‡
     void setFrequency(char ch, int freq) {
         frequencies[ch] = freq;
     }
 
-    // Êä³öËùÓĞµÄ Huffman ±àÂë²¢¸½´øÆµÂÊĞÅÏ¢
+    // è¾“å‡ºæ‰€æœ‰çš„ Huffman ç¼–ç å¹¶é™„å¸¦é¢‘ç‡ä¿¡æ¯
     void display() const {
         for (const auto& entry : huffmanCodes) {
-            // Êä³ö×Ö·ûµÄ Huffman ±àÂëºÍÆµÂÊ
-            cout << "×ÖÄ¸" << entry.first 
-                 << " µÄ¹ş·òÂü±àÂëÊÇ " << entry.second.bits2string(entry.second.size())
-                 << " Ëü³öÏÖµÄ´ÎÊıÊÇ " << frequencies.at(entry.first) << endl;
+            // è¾“å‡ºå­—ç¬¦çš„ Huffman ç¼–ç å’Œé¢‘ç‡
+            cout << "å­—æ¯" << entry.first 
+                 << " çš„å“ˆå¤«æ›¼ç¼–ç æ˜¯ " << entry.second.bits2string(entry.second.size())
+                 << " å®ƒå‡ºç°çš„æ¬¡æ•°æ˜¯ " << frequencies.at(entry.first) << endl;
         }
     }
 };
 
 struct HuffNode {
-    char ch;              // ×Ö·û
-    int freq;             // ÆµÂÊ
-    HuffNode* left;       // ×ó×Ó½Úµã
-    HuffNode* right;      // ÓÒ×Ó½Úµã
+    char ch;              // å­—ç¬¦
+    int freq;             // é¢‘ç‡
+    HuffNode* left;       // å·¦å­èŠ‚ç‚¹
+    HuffNode* right;      // å³å­èŠ‚ç‚¹
 
     HuffNode(char c, int f) : ch(c), freq(f), left(nullptr), right(nullptr) {}
 
-    // ÒÔÆµÂÊÎªÒÀ¾İµÄÓÅÏÈ¼¶±È½Ïº¯Êı
+    // ä»¥é¢‘ç‡ä¸ºä¾æ®çš„ä¼˜å…ˆçº§æ¯”è¾ƒå‡½æ•°
     bool operator>(const HuffNode& other) const {
         return freq > other.freq;
     }
@@ -68,61 +66,61 @@ struct HuffNode {
 void generateHuffmanCodes(HuffNode* node, const string& code, HuffCode& huffCode);
 
 void buildHuffmanTree(const string& text, HuffCode& huffCode, unordered_map<char, int>& freqMap) {
-    // Í³¼Æ×Ö·ûÆµÂÊ£¬Ö»¿¼ÂÇ×ÖÄ¸×Ö·û
+    // ç»Ÿè®¡å­—ç¬¦é¢‘ç‡ï¼Œåªè€ƒè™‘å­—æ¯å­—ç¬¦
     for (char ch : text) {
-        if (isalpha(ch)) {  // Ö»Í³¼Æ×ÖÄ¸
-            ch = tolower(ch);  // ½«×ÖÄ¸×ª»»ÎªĞ¡Ğ´
+        if (isalpha(ch)) {  // åªç»Ÿè®¡å­—æ¯
+            ch = tolower(ch);  // å°†å­—æ¯è½¬æ¢ä¸ºå°å†™
             freqMap[ch]++;
         }
     }
 
-    // ´´½¨ÓÅÏÈ¶ÓÁĞ£¨×îĞ¡¶Ñ£©£¬ÓÃÓÚ¹¹½¨ Huffman Ê÷
+    // åˆ›å»ºä¼˜å…ˆé˜Ÿåˆ—ï¼ˆæœ€å°å †ï¼‰ï¼Œç”¨äºæ„å»º Huffman æ ‘
     priority_queue<HuffNode, vector<HuffNode>, greater<HuffNode>> minHeap;
 
-    // ½«ËùÓĞ×Ö·ûºÍËüÃÇµÄÆµÂÊ²åÈëÓÅÏÈ¶ÓÁĞ
+    // å°†æ‰€æœ‰å­—ç¬¦å’Œå®ƒä»¬çš„é¢‘ç‡æ’å…¥ä¼˜å…ˆé˜Ÿåˆ—
     for (const auto& entry : freqMap) {
         minHeap.push(HuffNode(entry.first, entry.second));
-        huffCode.setFrequency(entry.first, entry.second);  // ÉèÖÃ×Ö·ûµÄÆµÂÊ
+        huffCode.setFrequency(entry.first, entry.second);  // è®¾ç½®å­—ç¬¦çš„é¢‘ç‡
     }
 
-    // ¹¹½¨ Huffman Ê÷
+    // æ„å»º Huffman æ ‘
     while (minHeap.size() > 1) {
-        // È¡³öÆµÂÊ×îĞ¡µÄÁ½¸ö½Úµã
+        // å–å‡ºé¢‘ç‡æœ€å°çš„ä¸¤ä¸ªèŠ‚ç‚¹
         HuffNode* left = new HuffNode(minHeap.top()); minHeap.pop();
         HuffNode* right = new HuffNode(minHeap.top()); minHeap.pop();
 
-        // ´´½¨ĞÂ½Úµã£¬ºÏ²¢Á½¸ö×îĞ¡µÄ½Úµã
+        // åˆ›å»ºæ–°èŠ‚ç‚¹ï¼Œåˆå¹¶ä¸¤ä¸ªæœ€å°çš„èŠ‚ç‚¹
         HuffNode* parent = new HuffNode('\0', left->freq + right->freq);
         parent->left = left;
         parent->right = right;
 
-        // ½«ĞÂ½Úµã²åÈë¶ÓÁĞ
+        // å°†æ–°èŠ‚ç‚¹æ’å…¥é˜Ÿåˆ—
         minHeap.push(*parent);
     }
 
-    // ×îºóÊ£ÏÂµÄ½ÚµãÊÇ Huffman Ê÷µÄ¸ù½Úµã
+    // æœ€åå‰©ä¸‹çš„èŠ‚ç‚¹æ˜¯ Huffman æ ‘çš„æ ¹èŠ‚ç‚¹
     HuffNode* root = new HuffNode(minHeap.top()); minHeap.pop();
 
-    // µİ¹éÉú³É Huffman ±àÂë
+    // é€’å½’ç”Ÿæˆ Huffman ç¼–ç 
     generateHuffmanCodes(root, "", huffCode);
 }
 
-// µİ¹éÉú³É Huffman ±àÂë
+// é€’å½’ç”Ÿæˆ Huffman ç¼–ç 
 void generateHuffmanCodes(HuffNode* node, const string& code, HuffCode& huffCode) {
     if (!node) return;
 
-    if (node->ch != '\0') {  // Ò¶×Ó½Úµã
+    if (node->ch != '\0') {  // å¶å­èŠ‚ç‚¹
         Bitmap bitmap;
-        bitmap.fromBinaryString(code);  // ½«±àÂë×Ö·û´®×ª»»ÎªÎ»Í¼
+        bitmap.fromBinaryString(code);  // å°†ç¼–ç å­—ç¬¦ä¸²è½¬æ¢ä¸ºä½å›¾
         huffCode.setHuffmanCode(node->ch, bitmap);
     }
 
-    // µİ¹éÉú³É×ó×ÓÊ÷ºÍÓÒ×ÓÊ÷µÄ±àÂë
+    // é€’å½’ç”Ÿæˆå·¦å­æ ‘å’Œå³å­æ ‘çš„ç¼–ç 
     generateHuffmanCodes(node->left, code + "0", huffCode);
     generateHuffmanCodes(node->right, code + "1", huffCode);
 }
 
-// ±àÂëº¯Êı
+// ç¼–ç å‡½æ•°
 string encode(const string& text, const HuffCode& huffCode) {
     string encodedStr;
     for (char ch : text) {
@@ -132,7 +130,7 @@ string encode(const string& text, const HuffCode& huffCode) {
     return encodedStr;
 }
 
-// ½âÂëº¯Êı
+// è§£ç å‡½æ•°
 string decode(const string& encodedStr, HuffNode* root) {
     string decodedStr;
     HuffNode* currentNode = root;
@@ -144,9 +142,9 @@ string decode(const string& encodedStr, HuffNode* root) {
             currentNode = currentNode->right;
         }
 
-        if (!currentNode->left && !currentNode->right) {  // Ò¶×Ó½Úµã
+        if (!currentNode->left && !currentNode->right) {  // å¶å­èŠ‚ç‚¹
             decodedStr += currentNode->ch;
-            currentNode = root;  // ·µ»Øµ½¸ù½Úµã
+            currentNode = root;  // è¿”å›åˆ°æ ¹èŠ‚ç‚¹
         }
     }
 
@@ -154,50 +152,50 @@ string decode(const string& encodedStr, HuffNode* root) {
 }
 
 int main() {
-    // ´ÓÎÄ¼şÖĞ¶ÁÈ¡ÎÄ±¾
-    ifstream inputFile("i have a dream.txt");  // ¼ÙÉèÎÄ¼şÃûÎª input.txt
+    // ä»æ–‡ä»¶ä¸­è¯»å–æ–‡æœ¬
+    ifstream inputFile("i have a dream.txt");  // å‡è®¾æ–‡ä»¶åä¸º input.txt
     if (!inputFile) {
-        cerr << "ÎŞ·¨´ò¿ªÎÄ¼ş!" << endl;
+        cerr << "æ— æ³•æ‰“å¼€æ–‡ä»¶!" << endl;
         return 1;
     }
 
     string text;
     string line;
 
-    // ¶ÁÈ¡ÎÄ¼şÄÚÈİ
+    // è¯»å–æ–‡ä»¶å†…å®¹
     while (getline(inputFile, line)) {
-        text += line + " ";  // ½«Ã¿Ò»ĞĞ¼Óµ½ text ÖĞ
+        text += line + " ";  // å°†æ¯ä¸€è¡ŒåŠ åˆ° text ä¸­
     }
 
-    inputFile.close();  // ¹Ø±ÕÎÄ¼ş
+    inputFile.close();  // å…³é—­æ–‡ä»¶
 
-    // ½«ÎÄ±¾×ª»»ÎªĞ¡Ğ´£¬²¢½ö±£Áô×ÖÄ¸
+    // å°†æ–‡æœ¬è½¬æ¢ä¸ºå°å†™ï¼Œå¹¶ä»…ä¿ç•™å­—æ¯
     for (char& c : text) {
-        c = tolower(c);  // ½«ËùÓĞ×ÖÄ¸×ªÎªĞ¡Ğ´
+        c = tolower(c);  // å°†æ‰€æœ‰å­—æ¯è½¬ä¸ºå°å†™
     }
 
-    // ´´½¨ Huffman ±àÂë¶ÔÏó
+    // åˆ›å»º Huffman ç¼–ç å¯¹è±¡
     HuffCode huffCode;
 
-    // ÓÃÓÚ´æ´¢×Ö·ûµÄ´ÊÆµ
+    // ç”¨äºå­˜å‚¨å­—ç¬¦çš„è¯é¢‘
     unordered_map<char, int> freqMap;
 
-    // ¸ù¾İÎÄ±¾¹¹½¨ Huffman ±àÂëÊ÷
+    // æ ¹æ®æ–‡æœ¬æ„å»º Huffman ç¼–ç æ ‘
     buildHuffmanTree(text, huffCode, freqMap);
 
-    // Êä³öËùÓĞ×Ö·ûµÄ Huffman ±àÂë²¢¸½´øÆµÂÊ
-    cout << "ÒÔÏÂÊÇÃ¿¸ö×ÖÄ¸µÄ¹ş·òÂü±àÂëºÍ³öÏÖ´ÎÊı" << endl;
+    // è¾“å‡ºæ‰€æœ‰å­—ç¬¦çš„ Huffman ç¼–ç å¹¶é™„å¸¦é¢‘ç‡
+    cout << "ä»¥ä¸‹æ˜¯æ¯ä¸ªå­—æ¯çš„å“ˆå¤«æ›¼ç¼–ç å’Œå‡ºç°æ¬¡æ•°" << endl;
     huffCode.display();
 
-    // ¶Ô "dream" ºÍ "people" ½øĞĞ±àÂë
+    // å¯¹ "dream" å’Œ "people" è¿›è¡Œç¼–ç 
     string word1 = "dream";
     string word2 = "people";
 
     string encodedDream = encode(word1, huffCode);
     string encodedPeople = encode(word2, huffCode);
 
-    cout << "\ndreamµÄ¹ş·òÂü±àÂëÊÇ " << encodedDream << endl;
-    cout << "peopleµÄ¹ş·òÂü±àÂëÊÇ " << encodedPeople << endl;
+    cout << "\ndreamçš„å“ˆå¤«æ›¼ç¼–ç æ˜¯ " << encodedDream << endl;
+    cout << "peopleçš„å“ˆå¤«æ›¼ç¼–ç æ˜¯ " << encodedPeople << endl;
 
     return 0;
 }
